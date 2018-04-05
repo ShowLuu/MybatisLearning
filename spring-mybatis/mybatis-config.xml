@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+   <!-- 引入外部属性文件 -->
+   <properties resource="db.properties">
+       <!-- property中的值会被属性文件中相同的属性值覆盖 
+       <property name="url" value=""/>-->
+   </properties>
+   
+   <typeAliases>
+		<package name="com.ss.mybatis.entity"/>       
+   </typeAliases>
+   
+   <!-- 配置数据库，一个environment对应一个数据环境 default指定默认的数据库 -->
+	<environments default="dev">
+		<environment id="dev">
+		    <!-- 设置事务管理器，type选项有：JDBC(由数据库管理事务) 、MANAGED（由运行该程序的容器管理）-->
+			<transactionManager type="JDBC" />
+			<!--配置数据源，type选项有: POOLED（将连接放在数据库连接池中）、UNPOOLED（每次请求都会创建新的数据库连接）-->
+			<dataSource type="POOLED">
+			    <!-- 数据库驱动类 -->
+				<property name="driver" value="${driver}" />
+				<!-- 数据库访问URL -->
+				<property name="url" value="${url}" />
+				<!-- 登录数据库的用户名-->
+				<property name="username" value="${username}" />
+				<!-- 登录数据库的密码-->
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- 配置SQL映射文件 -->
+	<mappers>
+	    <!-- 方式一：直接指定SQL映射文件的路径-->
+		<!-- <mapper resource="com/ss/mybatis/dao/UserDao.xml" /> -->
+		
+		<!-- 方式二：通过映射器类（注意：映射器类与映射文件必需在同一目录下）-->
+		<!-- <mapper class="com.ss.mybatis.dao.UserDao" /> -->
+		
+		<!-- 方式三：通过包名（注意：映射器类与映射文件必需在同一目录下）  -->
+		<package name="com.ss.mybatis.dao" />
+		
+	</mappers>
+</configuration>

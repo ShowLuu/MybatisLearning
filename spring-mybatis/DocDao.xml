@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ss.mybatis.dao.DocDao">
+    <resultMap type="document" id="map">
+        <id property="id" column="knowledge_document.id"/>
+        <result property="name" column="name"/>
+        <result property="path" column="path"/>
+        <result property="keywords" column="keywords"/>
+        <association property="user" column="user_id" javaType="User">
+            <id property="id" column="knowledge_user.id"/>
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+        </association>
+    </resultMap>
+    
+    <resultMap type="Document" id="map2">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="path" column="path"/>
+        <result property="keywords" column="keywords"/>
+        <association property="user" column="user_id" select="com.ss.mybatis.dao.UserDao.findById">
+        </association>
+    </resultMap>
+    
+    <select id="findTwo2" resultMap="map2">
+        select * from knowledge_document
+    </select>
+    
+</mapper>
