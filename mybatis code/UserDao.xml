@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="/">
+    
+ <select id="findById" parameterType="long" resultType="User">
+ select * from knowledge_user where id = #{id}
+ </select>
+ 
+  <resultMap type="user" id="map">
+            <id property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+    </resultMap>
+  <select id="findList" resultMap="map">
+ select * from knowledge_user
+ </select>
+ 
+  <insert id="inserts" parameterType="User">
+ 	 		insert into knowledge_user(id,username,password) values
+ 	 			(#{id},#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR})
+ </insert>
+ 
+ <insert id="insert" parameterType="User">
+ 	 		<trim prefix="insert into knowledge_user(" suffix=")" suffixOverrides=",">
+ 			    <if test="id!=null">id,</if> 	
+				<if test="username!=null">username,</if> 	
+				<if test="password!=null">password,</if> 
+			</trim>	
+ 			<trim prefix="values(" suffix=")" suffixOverrides=",">
+ 			    <if test="id!=null">#{id},</if> 	
+				<if test="username!=null">#{username},</if> 	
+				<if test="password!=null">#{password},</if> 
+ 			</trim>
+ </insert>
+ 
+ <update id="update" parameterType="User">
+     update knowledge_user 
+     <set>
+         <if test="username!=null">username=#{username},</if>
+         <if test="password!=null">password=#{password},</if>
+     </set>
+     <where>
+         <if test="id!=null">id=#{id}</if>
+     </where>
+ </update>
+ 
+ <delete id="delete" parameterType="User">
+     delete from knowledge_user 
+     <where>
+         <if test="id!=null">id=#{id}</if>
+     </where>
+ </delete>
+ 
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="/">
+    <resultMap type="document" id="docList">
+        <id property="id" column="knowledge_document.id"/>
+        <result property="name" column="name"/>
+        <result property="path" column="path"/>
+        <result property="keywords" column="keywords"/>
+        <association property="user" column="user_id" javaType="User">
+            <id property="id" column="knowledge_user.id"/>
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+        </association>
+    </resultMap>
+    
+    
+     <select id="findTwo" resultMap="docList">
+        select * from knowledge_document,knowledge_user
+        where knowledge_user.id=knowledge_document.user_id
+     </select>
+    
+    <resultMap type="Document" id="docList2">
+        <id property="id" column="knowledge_document.id"/>
+        <result property="name" column="name"/>
+        <result property="path" column="path"/>
+        <result property="keywords" column="keywords"/>
+        <association property="user" column="user_id"  javaType="User" select="findById">
+        </association>
+    </resultMap>
+    
+    <select id="findTwo2" resultMap="docList2">
+        select * from knowledge_document
+    </select>
+    
+    <resultMap type="Document" id="docList3">
+        <id property="id" column="knowledge_document.id"/>
+        <result property="name" column="name"/>
+        <result property="path" column="path"/>
+        <result property="keywords" column="keywords"/>
+        <collection property="userList" column="user_id" javaType="ArrayList" ofType="User">
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+        </collection>
+    </resultMap>
+    
+    <select id="findTwo3" resultMap="docList3">
+        select * from knowledge_document,knowledge_user
+        where knowledge_user.id=knowledge_document.user_id
+    </select>
+    
+    
+    
+</mapper>
